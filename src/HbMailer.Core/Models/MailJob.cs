@@ -2,7 +2,7 @@
 using System.Xml.Serialization;
 using System.Collections.Generic;
 
-namespace HbMailer.Model {
+namespace HbMailer.Models {
   public class MailJobMergeField {
     [XmlAttribute]
     public string FieldName;
@@ -16,7 +16,9 @@ namespace HbMailer.Model {
     
     [XmlArray]
     public List<MailJobMergeField> MergeFields { get; set; }
-    
-    public static XmlSerializer CreateSerializer() => new XmlSerializer(typeof(MailJob));
+
+    #region Disk Interface
+
+    #endregion
   }
 }

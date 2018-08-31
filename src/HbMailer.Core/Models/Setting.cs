@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 using NLog;
 using NLog.Config;
 
-namespace HbMailer.Model
+namespace HbMailer.Models
 {
   public class Setting
   {

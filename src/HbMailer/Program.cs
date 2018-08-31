@@ -15,19 +15,17 @@ using HbMailer.Properties;
 
 namespace HbMailer {
   class Program {
-    public static Setting Settings;
-
     static void SetupLogger() {
       var config = new LoggingConfiguration();
       var fileTarget = new FileTarget("file") {
-        Layout = @"[${longdate}][${level}] ${message} ${exception}",
+        Layout = @"[${longdate}][${level}] ${message} ${exception:format=message}",
         FileName = Path.Combine(Resources.LogFolder, "error.log"),
         ArchiveEvery = FileArchivePeriod.Day,
         ArchiveAboveSize = 10240,
         ArchiveNumbering = ArchiveNumberingMode.Date,
       };
       var consoleTarget = new ColoredConsoleTarget("console") {
-        Layout = @"[${date:format=HH\:mm\:ss}][${level}] ${message} ${exception}",
+        Layout = @"[${date:format=HH\:mm\:ss}][${level}] ${message} ${exception:format=toString}",
       };
 
       config.AddTarget(fileTarget);
@@ -46,8 +44,8 @@ namespace HbMailer {
       AppCtx ctx = new AppCtx();
 
       if (!ctx.SettingManager.TryLoad(Resources.SettingsFile)) return;
-      if (!ctx.MailJobManager.TryConnect()) return;
-
+      if (!ctx.MailJobManager.TryInitialize()) return;
+      if (!ctx.MailJobDispatcher.TryInitialize()) return;
     }
 
     static void Main() {

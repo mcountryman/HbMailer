@@ -13,7 +13,7 @@ namespace HbMailer.Service {
     private Logger _logger;
 
     public SettingManager(AppCtx ctx) {
-      _ctx = new AppCtx();
+      _ctx = ctx;
       _logger = LogManager.GetLogger("SettingManager");
     }
     
@@ -40,7 +40,7 @@ namespace HbMailer.Service {
 
     public bool TrySave(string filename) {
       try {
-        using (var stream = File.OpenWrite(filename))
+        using (var stream = File.Open(filename, FileMode.Create))
           Setting.CreateSerializer().Serialize(stream, _ctx.Setting);
 
         return true;

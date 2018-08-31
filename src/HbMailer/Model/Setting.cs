@@ -12,6 +12,7 @@ namespace HbMailer.Model
 {
   public class Setting
   {
+    public string MandrillApiKey { get; set; } = @"";
     public string DbConnectionString { get; set; } = @"";
 
     public static XmlSerializer CreateSerializer() => new XmlSerializer(typeof(Setting));

@@ -15,16 +15,15 @@ namespace HbMailer.Service {
     public SettingManager SettingManager { get; set; }
     public MailJobCtx MailJobCtx { get; set; }
     public MailJobManager MailJobManager { get; set; }
+    public MailJobDispatcher MailJobDispatcher { get; set; }
 
     public AppCtx() {
       Setting = new Setting();
       SettingManager = new SettingManager(this);
 
-      MailJobCtx = new MailJobCtx() {
-        Logger = LogManager.GetLogger("MailJobManager"),
-        Setting = Setting,
-      };
+      MailJobCtx = new MailJobCtx(this);
       MailJobManager = new MailJobManager(MailJobCtx);
+      MailJobDispatcher = new MailJobDispatcher(MailJobCtx);
     }
   }
 }

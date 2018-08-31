@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Data.SqlClient;
 
+using HbMailer;
+using HbMailer.Model;
+
 namespace HbMailer.Service {
   public class MailJobManager {
     private MailJobCtx _ctx;
@@ -15,7 +18,23 @@ namespace HbMailer.Service {
       _ctx = ctx;
     }
 
-    public bool TryLoadJob(string filename) { return false; }
+    public bool TryLoadJob(string filename) {
+      try {
+        using (var stream = File.OpenRead(filename))
+          _ctx.Jobs.Enqueue(MailJob.CreateSerializer().Deserialize(stream) as MailJob);
+
+        return true;
+      } catch (Exception ex) {
+        _ctx.Logger.Error(ex, $"Failed to load job {filename}");
+      }
+
+      return false;
+    }
+
+    public void SaveJob(string filename, MailJob job) {
+      using (var stream = File.Open(filename, FileMode.Create))
+        MailJob.CreateSerializer().Serialize(stream, job);
+    }
 
     public bool TryLoadJobs(string folder) {
       try {
@@ -24,8 +43,10 @@ namespace HbMailer.Service {
           Directory.CreateDirectory(folder);
 
         // Iterate over all files in directory and load with TryLoadJob
-        foreach (var filename in Directory.GetFiles(folder))
-          TryLoadJob(filename);
+        Parallel.ForEach(
+          Directory.GetFiles(folder),
+          (filename) => TryLoadJob(filename)
+        );
 
         return true;
       } catch (Exception ex) {
@@ -35,7 +56,7 @@ namespace HbMailer.Service {
       return false;
     }
     
-    public bool TryConnect() {
+    public bool TryInitialize() {
       try {
         _ctx.SqlConnection = new SqlConnection(_ctx.Setting.DbConnectionString);
         _ctx.SqlConnection.Open();

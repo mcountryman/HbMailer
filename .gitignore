@@ -135,6 +135,9 @@ _TeamCity*
 *.coverage
 *.coveragexml
 
+# OpenCover coverage results
+coverage.xml
+
 # NCrunch
 _NCrunch_*
 .*crunch*.local.xml

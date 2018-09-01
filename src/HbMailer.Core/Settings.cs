@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
+using System.Data.SqlClient;
 
 using NLog;
 using NLog.Config;
@@ -17,8 +14,21 @@ namespace HbMailer {
     [XmlElement]
     public string DbConnectionString { get; set; } = @"";
 
-    public void Validate() { }
+    /// <summary>
+    /// Throw an exception when settings are invalid.
+    /// </summary>
+    public void Validate() {
+      using (SqlConnection connection = new SqlConnection(DbConnectionString))
+        connection.Open();
 
+      EmailService.Validate();
+    }
+
+    /// <summary>
+    /// Load new instance from disk.
+    /// </summary>
+    /// <param name="filename">Path to XML file.</param>
+    /// <returns></returns>
     public static Settings Load(string filename)
       => Load<Settings>(filename);
   }

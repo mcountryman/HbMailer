@@ -13,23 +13,29 @@ namespace HbMailer.Jobs.Impl {
 
   public class DataTableMapper {
     /// <summary>
-    /// Map columns names to column ordinals and collects all un-mapped columns.
+    /// Inserts a reference to columns that match a name in the `names` parameter 
+    ///   into DataTableMapResult.Columns.  Columns that do not have a matching
+    ///   name in the `names` parameter will be referenced into
+    ///   DataTableMapResult.UnmappedColumns.
     /// </summary>
     /// <param name="data">DataTable containg columns to be mapped</param>
-    /// <param name="names">Colum names to be mapped</param>
+    /// <param name="names">Column names to be mapped</param>
     /// <returns></returns>
     public DataTableMapResult MapColumns(DataTable data, List<string> names, bool throw_on_unmapped = true) {
+      // Create copy of names parameter
       List<string> namesCopy = new List<string>(names);
+      // Create result DataTableMapResult
       DataTableMapResult result = new DataTableMapResult() {
         Columns = new Dictionary<string, int>(),
         UnmappedColumns = new List<int>(),
       };
 
+      // Iterate over all columns
       for (int i = 0; i < data.Columns.Count; i++) {
         DataColumn column = data.Columns[i];
-
+        
         if (namesCopy.Contains(column.ColumnName)) {
-          // Remove column name so we don't attempt to search for it again
+          // Remove column name so we don't have to search for it again
           namesCopy.Remove(column.ColumnName);
           // Add column ordinal and name to Dictionary
           result.Columns[column.ColumnName] = column.Ordinal;
@@ -53,9 +59,11 @@ namespace HbMailer.Jobs.Impl {
         }
       }
 
-      // Check if all names were mapped
-      if (namesCopy.Count != 0) {
-        throw new Exception("Generic exception");
+      // Check if any names left un-mapped, if configured throw exception.
+      if (namesCopy.Count != 0 && throw_on_unmapped) {
+        throw new InvalidOperationException(
+          $"Column '${namesCopy.First()}' not found."
+        );
       }
 
       return result;

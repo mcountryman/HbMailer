@@ -13,6 +13,7 @@ namespace HbMailer.Jobs.Impl {
       MailJobContext ctx,
       MailJob        job
     ) {
+      // Create SQL connection
       using (SqlConnection connection = new SqlConnection(ctx.Settings.DbConnectionString)) {
         connection.Open();
 
@@ -20,8 +21,11 @@ namespace HbMailer.Jobs.Impl {
         var recipients = new List<MailJobRecipient>();
 
         // TODO: Populate command parameters
+        //  Something like this maybe..?
+        //  -|  foreach param {GlobalCommandParameterRegistry}:
+        //  -|    command.Parameters.Add(new SqlParameter(param.Name, param.Value));
 
-        // Format resulting data
+        // Format query results into MailJobRecipient List
         using (SqlDataReader reader = command.ExecuteReader()) {
           // Load query results into DataTable
           DataTable data = new DataTable();
@@ -34,11 +38,12 @@ namespace HbMailer.Jobs.Impl {
     }
 
     /// <summary>
-    /// Resolve MailJobRecipient from DataTable input.
+    /// Resolve MailJobRecipient from DataTable input.  Assigns MailJob.Recipients
+    /// field to results of this method.
     /// </summary>
-    /// <param name="data"></param>
-    /// <param name="job"></param>
-    /// <returns></returns>
+    /// <param name="data">DataTable input</param>
+    /// <param name="job">MailJob input</param>
+    /// <returns>List of MailJobRecipient</returns>
     public List<MailJobRecipient> FormatData(DataTable data, MailJob job) {
       var recipients = new List<MailJobRecipient>();
       
@@ -55,9 +60,17 @@ namespace HbMailer.Jobs.Impl {
       foreach (DataRow row in data.Rows) {
         MailJobRecipient recipient = new MailJobRecipient();
 
+        // Resolve recipient name from mapped DataTable ordinal
+        //  row[                 <-- Index DataRow array
+        //    mapResult.Columns[ <-- Attempt to find column ordinal from ...
+        //      job.NameColumn   <-- Use name SQL column defined in MailJob XML file
+        //  ]].ToString()        <-- Now we have the cell we are looking for. :D
         recipient.Name = row[mapResult.Columns[job.NameColumn]].ToString();
+        // Resolve recipient email from mapped DataTable ordinal
         recipient.Email = row[mapResult.Columns[job.EmailColumn]].ToString();
 
+        // Now we are going to iterate over all other results from our `query` and
+        //  assume that these will be merge fields.
         foreach (int mergeOrdinal in mapResult.UnmappedColumns) {
           recipient.MergeFields.Add(
             data.Columns[mergeOrdinal].ColumnName,

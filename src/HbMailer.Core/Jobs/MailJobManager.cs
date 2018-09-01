@@ -12,18 +12,39 @@ using HbMailer.Jobs.Impl;
 using HbMailer.Jobs.Dispatcher;
 
 namespace HbMailer.Jobs {
+  /// <summary>
+  /// Handles all MailJob processes from cradle to grave.
+  /// </summary>
   public class MailJobManager {
     private MailJobContext _ctx;
     private IJobDispatcher _dispatcher;
     private RecipientResolver _recipientResolver;
 
+    /// <summary>
+    /// Construct and configures MailJobManager
+    /// </summary>
+    /// <param name="ctx">Utilized for Settings object down the line when a database
+    /// connection needs to be made and a job needs sent to an E-mail campaign service.</param>
     public MailJobManager(MailJobContext ctx) {
       _ctx = ctx;
+      _dispatcher = new JobDispatcherFactory().CreateDispatcher(ctx.Settings);
+      _recipientResolver = new RecipientResolver();
     }
 
+    /// <summary>
+    /// Runs MailJob from XML file
+    /// </summary>
+    /// <param name="filename"></param>
     public void RunJob(string filename) {
-      MailJob job = MailJob.Load(filename);
+      RunJob(MailJob.Load(filename));
+    }
 
+    /// <summary>
+    /// Resolves recipient email, name, and metadata from query then dispatches
+    /// email with recipient list to configured email service.
+    /// </summary>
+    /// <param name="job"></param>
+    public void RunJob(MailJob job) {
       _recipientResolver.Resolve(_ctx, job);
       _dispatcher.Dispatch(_ctx, job);
     }

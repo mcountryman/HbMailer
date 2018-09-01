@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace HbMailer.Jobs.Dispatcher {
   public class JobDispatcherFactory {
     /// <summary>
-    /// 
+    /// Creates E-mail service dispatcher
     /// </summary>
     /// <param name="settings"></param>
     /// <returns></returns>
@@ -17,7 +17,9 @@ namespace HbMailer.Jobs.Dispatcher {
       }
 
       // TODO: More expressive Exception
-      throw new Exception("");
+      throw new InvalidOperationException(
+        $"No valid E-mail dispatch service configuration found"  
+      );
     }
   }
 }

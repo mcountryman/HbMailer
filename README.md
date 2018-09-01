@@ -1,1 +1,4 @@
 # HB Mailer
+
+## Installation
+## Documentation

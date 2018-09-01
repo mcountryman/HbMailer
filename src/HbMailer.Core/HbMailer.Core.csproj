@@ -118,7 +118,6 @@
     <Compile Include="Jobs\Dispatcher\MandrillDispatcher.cs" />
     <Compile Include="Jobs\Impl\DataTableMapper.cs" />
     <Compile Include="Jobs\MailJobContext.cs" />
-    <Compile Include="Jobs\MailJobField.cs" />
     <Compile Include="Jobs\MailJobRecipient.cs" />
     <Compile Include="Jobs\Impl\RecipientResolver.cs" />
     <Compile Include="Jobs\MailJobManager.cs" />

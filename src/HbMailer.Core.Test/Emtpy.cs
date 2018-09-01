@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace HbMailer.Test {
   [TestFixture]
-  class Emtpy {
+  class Empty {
     [Test]
     public void TestEmpty() { }
   }

@@ -40,19 +40,6 @@ namespace HbMailer.Jobs.Impl {
           // Add column ordinal and name to Dictionary
           result.Columns[column.ColumnName] = column.Ordinal;
 
-        } else if (namesCopy.Count <= 0) {
-          // All column names previously found.  Add everything else to unmapped
-          //  columns List and break.
-          result.UnmappedColumns.AddRange(
-            data.Columns
-              .Cast<DataColumn>()
-              .ToList()
-              .GetRange(i, data.Columns.Count - i)
-              .Select(x => x.Ordinal)
-              .ToArray()
-          );
-
-          break;
         } else {
           // Column name not found. Add to unmapped columns List.
           result.UnmappedColumns.Add(column.Ordinal);

@@ -49,7 +49,7 @@ namespace HbMailer.Jobs.Impl {
       // Check if any names left un-mapped, if configured throw exception.
       if (namesCopy.Count != 0 && throw_on_unmapped) {
         throw new InvalidOperationException(
-          $"Column '${namesCopy.First()}' not found."
+          $"Column '{namesCopy.First()}' not found."
         );
       }
 

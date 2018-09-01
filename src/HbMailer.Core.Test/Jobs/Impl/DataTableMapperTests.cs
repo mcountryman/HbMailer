@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace HbMailer.Jobs.Impl {
   [TestFixture]
-  class DataTableMapperTest {
+  class DataTableMapperTests {
     DataTable data;
     DataTableMapper mapper;
 

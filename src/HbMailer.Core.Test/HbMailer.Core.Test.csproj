@@ -39,11 +39,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Emtpy.cs" />
+    <Compile Include="Jobs\Impl\RecipientResolverTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <Compile Include="Jobs\Impl\DataTableMapper.Test.cs" />
+    <Compile Include="Jobs\Impl\DataTableMapperTests.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

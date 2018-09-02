@@ -45,8 +45,15 @@ namespace HbMailer.Jobs {
     /// </summary>
     /// <param name="job"></param>
     public void RunJob(MailJob job) {
-      _recipientResolver.Resolve(_ctx, job);
-      _dispatcher.Dispatch(_ctx, job);
+      try {
+        _recipientResolver.Resolve(_ctx, job);
+        job.Logger.Debug($"Resolved {job.Recipients.Count} recipients.");
+        _dispatcher.Dispatch(_ctx, job);
+        job.Logger.Debug($"Dispatched email campaign to '{_dispatcher.Name}'");
+        job.Logger.Info("Job successfull");
+      } catch (Exception ex) {
+        job.Logger.Error(ex, "Job failed");
+      }
     }
   }
 }

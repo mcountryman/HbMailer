@@ -10,9 +10,12 @@ using HbMailer.Jobs.Dispatcher;
 namespace HbMailer {
   public class Settings : Model {
     [XmlElement("MandrillSettings", typeof(MandrillSettings))]
-    public EmailSettings EmailService;
+    public EmailSettings EmailService = new MandrillSettings() {
+      ApiKey = "MANDRILL_API_KEY",
+    };
+
     [XmlElement]
-    public string DbConnectionString { get; set; } = @"";
+    public string DbConnectionString { get; set; } = @"Data Source=localhost; Integrated Security=SSPI;";
 
     /// <summary>
     /// Throw an exception when settings are invalid.
@@ -31,5 +34,8 @@ namespace HbMailer {
     /// <returns></returns>
     public static Settings Load(string filename)
       => Load<Settings>(filename);
+
+    public static Settings LoadSafe(string filename)
+      => LoadSafe<Settings>(filename);
   }
 }

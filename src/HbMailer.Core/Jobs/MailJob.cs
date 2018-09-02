@@ -1,8 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Xml.Serialization;
 using System.Data;
 using System.Data.SqlClient;
 using System.Collections.Generic;
+
+using NLog;
 
 namespace HbMailer.Jobs {
   /// <summary>
@@ -10,6 +13,22 @@ namespace HbMailer.Jobs {
   /// </summary>
   [XmlType("job")]
   public class MailJob : Model {
+    /// <summary>
+    /// Get Name of job from Model.Filename
+    /// </summary>
+    [XmlIgnore]
+    public string Name {
+      get => Path.GetFileNameWithoutExtension(Filename);
+    }
+
+    /// <summary>
+    /// Get NLog logger
+    /// </summary>
+    [XmlIgnore]
+    public Logger Logger {
+      get => LogManager.GetLogger(Name);
+    }
+
     /// <summary>
     /// SQL query string used to build recipient list.
     /// </summary>

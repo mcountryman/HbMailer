@@ -29,6 +29,7 @@ namespace HbMailer.Jobs.Dispatcher {
   /// MailJob dispatcher for https://mandrillapp.com.
   /// </summary>
   public class MandrillDispatcher : IJobDispatcher {
+    public string Name { get; } = "Mandrill";
 
     /// <summary>
     /// Dispatch MailJob to Mandrill service through web API.

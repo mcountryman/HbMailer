@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 namespace HbMailer.Jobs.Dispatcher {
   public interface IJobDispatcher {
     /// <summary>
+    /// Get name of E-mail service;
+    /// </summary>
+    string Name { get; }
+
+    /// <summary>
     /// Dispatch MailJob to E-mail service.
     /// </summary>
     /// <param name="ctx"></param>

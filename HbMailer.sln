@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HbMailer", "src\HbMailer\HbMailer.csproj", "{9F853873-EB96-4B60-9A0A-22E2417B0237}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{53D8C0E9-1EBA-43A2-BF4A-D3A653D0D565}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
@@ -12,11 +10,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HbMailerApp", "src\HbMailerApp\HbMailerApp.csproj", "{57D05096-B2C2-495B-8A03-54571E6CD37B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HbMailer.Core", "src\HbMailer.Core\HbMailer.Core.csproj", "{3928C45E-D2E5-4A97-A523-25A92822398E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HbMailer.Core.Test", "src\HbMailer.Core.Test\HbMailer.Core.Test.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HbMailer", "src\HbMailer\HbMailer.csproj", "{4FC74F15-2122-4D4D-A847-A4C31027387C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,14 +22,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9F853873-EB96-4B60-9A0A-22E2417B0237}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F853873-EB96-4B60-9A0A-22E2417B0237}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F853873-EB96-4B60-9A0A-22E2417B0237}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F853873-EB96-4B60-9A0A-22E2417B0237}.Release|Any CPU.Build.0 = Release|Any CPU
-		{57D05096-B2C2-495B-8A03-54571E6CD37B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{57D05096-B2C2-495B-8A03-54571E6CD37B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{57D05096-B2C2-495B-8A03-54571E6CD37B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{57D05096-B2C2-495B-8A03-54571E6CD37B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3928C45E-D2E5-4A97-A523-25A92822398E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3928C45E-D2E5-4A97-A523-25A92822398E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3928C45E-D2E5-4A97-A523-25A92822398E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -40,6 +30,10 @@ Global
 		{8EDF4429-251A-416D-BB68-93F227191BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FC74F15-2122-4D4D-A847-A4C31027387C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FC74F15-2122-4D4D-A847-A4C31027387C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FC74F15-2122-4D4D-A847-A4C31027387C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FC74F15-2122-4D4D-A847-A4C31027387C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

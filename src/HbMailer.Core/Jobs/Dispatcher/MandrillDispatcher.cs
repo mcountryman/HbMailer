@@ -16,9 +16,9 @@ namespace HbMailer.Jobs.Dispatcher {
   public class MandrillSettings : EmailSettings {
     public string ApiKey { get; set; }
 
-    public override void Validate() {
+    public override async Task Validate() {
       try {
-        new MandrillApi(ApiKey).Ping().RunSynchronously();
+        await new MandrillApi(ApiKey).Ping();
       } catch (MandrillException ex) {
         throw new FormatException($"Invalid Mandrill API key", ex);
       }

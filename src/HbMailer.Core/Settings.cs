@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 using NLog;
 using NLog.Config;
@@ -20,11 +21,11 @@ namespace HbMailer {
     /// <summary>
     /// Throw an exception when settings are invalid.
     /// </summary>
-    public void Validate() {
+    public async Task Validate() {
       using (SqlConnection connection = new SqlConnection(DbConnectionString))
-        connection.Open();
+        await connection.OpenAsync();
 
-      EmailService.Validate();
+      await EmailService.Validate();
     }
 
     /// <summary>

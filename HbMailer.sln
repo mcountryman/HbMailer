@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HbMailer.Core.Test", "src\H
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HbMailer", "src\HbMailer\HbMailer.csproj", "{4FC74F15-2122-4D4D-A847-A4C31027387C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HbMailerApp", "src\HbMailerApp\HbMailerApp.csproj", "{9719DFFC-02DD-44CB-989A-E239602BC767}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{4FC74F15-2122-4D4D-A847-A4C31027387C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FC74F15-2122-4D4D-A847-A4C31027387C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FC74F15-2122-4D4D-A847-A4C31027387C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9719DFFC-02DD-44CB-989A-E239602BC767}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9719DFFC-02DD-44CB-989A-E239602BC767}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9719DFFC-02DD-44CB-989A-E239602BC767}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9719DFFC-02DD-44CB-989A-E239602BC767}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

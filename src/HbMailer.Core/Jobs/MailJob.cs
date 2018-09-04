@@ -11,7 +11,7 @@ namespace HbMailer.Jobs {
   /// <summary>
   /// MailJob contains all E-mail campaign job data.
   /// </summary>
-  [XmlType("job")]
+  [XmlType("Job")]
   public class MailJob : Model {
     /// <summary>
     /// Get Name of job from Model.Filename
@@ -32,26 +32,29 @@ namespace HbMailer.Jobs {
     /// <summary>
     /// SQL query string used to build recipient list.
     /// </summary>
-    [XmlElement("query")]
+    [XmlElement("Query")]
     public string Query { get; set; }
 
     /// <summary>
     /// Email campaign service template id.
     /// </summary>
-    [XmlElement("template")]
+    [XmlElement("Template")]
     public string Template { get; set; }
 
     /// <summary>
     /// Recipient name SQL query result column.
     /// </summary>
-    [XmlElement("recipient_name_column")]
+    [XmlElement("RecipientNameColumn")]
     public string NameColumn { get; set; } = "RecipientName";
 
     /// <summary>
     /// Recipient email SQL query result column.
     /// </summary>
-    [XmlElement("recipient_email_column")]
+    [XmlElement("RecipientEmailColumn")]
     public string EmailColumn { get; set; } = "RecipientEmail";
+
+    [XmlArray("SurveyFields")]
+    int _;
 
     /// <summary>
     /// Generated list of recipients.

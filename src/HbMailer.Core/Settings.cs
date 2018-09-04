@@ -15,6 +15,9 @@ namespace HbMailer {
       ApiKey = "MANDRILL_API_KEY",
     };
 
+    [XmlElement()]
+    public SurveySettings SurveySettings = new SurveySettings();
+
     [XmlElement]
     public string DbConnectionString { get; set; } = @"Data Source=localhost; Integrated Security=SSPI;";
 

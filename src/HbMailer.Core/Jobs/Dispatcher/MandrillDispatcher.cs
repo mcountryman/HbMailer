@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Xml;
+using System.Xml.Serialization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -14,6 +14,7 @@ namespace HbMailer.Jobs.Dispatcher {
   /// Settings object for https://mandrillapp.com E-mail service.
   /// </summary>
   public class MandrillSettings : EmailSettings {
+    [XmlElement("ApiKey")]
     public string ApiKey { get; set; }
 
     public override async Task Validate() {

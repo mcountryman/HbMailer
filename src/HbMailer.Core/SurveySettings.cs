@@ -5,10 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace HbMailer {
-  /// <summary>
-  /// Base E-mail settings object
-  /// </summary>
-  public class EmailSettings {
+  public class SurveySettings : ISettings {
     /// <summary>
     /// Throw an exception when settings are invalid.
     /// </summary>

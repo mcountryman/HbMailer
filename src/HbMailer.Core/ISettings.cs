@@ -9,6 +9,6 @@ namespace HbMailer {
     /// <summary>
     /// Throw an exception when settings are invalid.
     /// </summary>
-    public virtual async Task Validate() { }
+    Task Validate();
   }
 }

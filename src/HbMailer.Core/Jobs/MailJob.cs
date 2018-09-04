@@ -18,7 +18,7 @@ namespace HbMailer.Jobs {
     /// </summary>
     [XmlIgnore]
     public string Name {
-      get => Path.GetFileNameWithoutExtension(Filename);
+      get { return Path.GetFileNameWithoutExtension(Filename); }
     }
 
     /// <summary>
@@ -26,7 +26,7 @@ namespace HbMailer.Jobs {
     /// </summary>
     [XmlIgnore]
     public Logger Logger {
-      get => LogManager.GetLogger(Name);
+      get { return LogManager.GetLogger(Name); }
     }
 
     /// <summary>
@@ -52,9 +52,6 @@ namespace HbMailer.Jobs {
     /// </summary>
     [XmlElement("RecipientEmailColumn")]
     public string EmailColumn { get; set; } = "RecipientEmail";
-
-    [XmlArray("SurveyFields")]
-    int _;
 
     /// <summary>
     /// Generated list of recipients.

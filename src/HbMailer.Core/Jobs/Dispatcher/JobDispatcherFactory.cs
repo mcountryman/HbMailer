@@ -18,7 +18,7 @@ namespace HbMailer.Jobs.Dispatcher {
 
       // TODO: More expressive Exception
       throw new InvalidOperationException(
-        $"No valid E-mail dispatch service configuration found"  
+        "No valid E-mail dispatch service configuration found"
       );
     }
   }

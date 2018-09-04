@@ -12,7 +12,7 @@ namespace HbMailer.Jobs.Surveys {
     public string ApiKey { get; set; }
 
     public async Task Validate() {
-      // TODO: Validate survey square
+      new SurveySquareApi(ApiKey);
     }
   }
 

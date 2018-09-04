@@ -73,7 +73,6 @@ namespace HbMailer {
     /// Deserializes XML from file and copies properties and fields into instance.
     /// </summary>
     public void Load() {
-      Type type;
       object that;
 
       // Read and deserialize file

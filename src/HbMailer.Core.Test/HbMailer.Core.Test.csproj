@@ -107,6 +107,7 @@
     <Compile Include="Jobs\Dispatcher\MandrillDispatcherTests.cs" />
     <Compile Include="Jobs\Impl\RecipientResolverTests.cs" />
     <Compile Include="Global.cs" />
+    <Compile Include="Jobs\MailJobManagerTests.cs" />
     <Compile Include="Jobs\Surveys\SurveyGeneratorFactoryTests.cs" />
     <Compile Include="Jobs\Surveys\SurveySquareGeneratorTests.cs" />
     <Compile Include="Jobs\Surveys\SurveySquare\SurveySquareApiTests.cs" />

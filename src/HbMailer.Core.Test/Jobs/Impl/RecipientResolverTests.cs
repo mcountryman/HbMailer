@@ -58,7 +58,12 @@ namespace HbMailer.Jobs.Impl {
         job
       );
 
-      return;
+      Assert.AreEqual(3, recipients.Count);
+      Assert.AreEqual("me@maar.vin", recipients[0].Email);
+      Assert.AreEqual(
+        "He is a cool dude",
+        recipients[0].MergeFields["recipientMetadata"]
+      );
     }
 
     [Test]

@@ -16,7 +16,7 @@ namespace HbMailer {
     }
 
     public string SurveySquareApiKey {
-      get { return Environment.GetEnvironmentVariable("HBMAILER_SURVEY_SQUARE_API_KEY"); }
+      get { return Environment.GetEnvironmentVariable("HBMAILER_SURVEYSQUARE_API_KEY"); }
     }
 
     public void Setup() {

@@ -11,48 +11,72 @@ using System.Xml.Serialization;
 using HbMailer.Jobs.Surveys.SurveySquare.Models;
 
 namespace HbMailer.Jobs.Surveys.SurveySquare {
-  [WebServiceBinding(Name ="SSDSSoap", Namespace = "http://www.surveysquare.com")]
+  [WebServiceBinding(Name = "SSDSSoap", Namespace = "http://www.SurveySquare.com/")]
   public class SurveySquareSoapApi : SoapHttpClientProtocol {
     public SurveySquareSoapApi() {
-      Url = "https://surveysquare.com/api/ssds.asmx";
+      Url = "http://www.surveysquare.com/API/SSDS.asmx";
     }
 
-    [SoapDocumentMethod("https://surveysquare.com/GetOAuthToken")]
-    public string GetOAuthToken(string apiKey) {
+    [SoapDocumentMethod(
+      "http://www.SurveySquare.com/getOuthToken",
+      Use = SoapBindingUse.Literal,
+      ParameterStyle = SoapParameterStyle.Wrapped,
+      RequestNamespace = "http://www.SurveySquare.com/",
+      ResponseNamespace = "http://www.SurveySquare.com/"
+    )]
+    public string getOuthToken(string APIKey) {
       return (
         Invoke(
           "getOuthToken",
-          new object[] { apiKey }
+          new object[] { APIKey }
         )[0]
       ) as string;
     }
 
-    [SoapDocumentMethod("https://www.surveysquare.com/GetSurveysXml")]
-    public Survey[] GetSurveysXml(string oAuthToken) {
-      return (
-        Invoke(
-          "GetSurveysXml",
-          new object[] { oAuthToken }
-        )[0]
-      ) as Survey[];
-    }
-
-    [SoapDocumentMethod("https://www.surveysquare.com/GenerateSurveyLink")]
-    public string GenerateSurveyLink(
-      string oAuthToken, 
-      string surveyId,
-      QueryStringField[] queryStringFields
+    [SoapDocumentMethod(
+      "http://www.SurveySquare.com/GenerateSurveyLinkXml",
+      Use = SoapBindingUse.Literal,
+      ParameterStyle = SoapParameterStyle.Wrapped,
+      RequestNamespace = "http://www.SurveySquare.com/",
+      ResponseNamespace = "http://www.SurveySquare.com/"
+    )]
+    public string GenerateSurveyLinkXml(
+      string OuthToken, 
+      string SurveyID,
+      QueryStringField[] QueryStringFields
     ) {
       return (
         Invoke(
-          "GenerateSurveyLink",
+          "GenerateSurveyLinkXml",
           new object[] {
-            oAuthToken,
-            surveyId,
-            queryStringFields,
+            OuthToken,
+            SurveyID,
+            QueryStringFields,
           }
         )[0]
       ) as string;
+    }
+
+    [SoapDocumentMethod(
+      "http://www.SurveySquare.com/GetQueryStringFieldsxml",
+      Use = SoapBindingUse.Literal,
+      ParameterStyle = SoapParameterStyle.Wrapped,
+      RequestNamespace = "http://www.SurveySquare.com/",
+      ResponseNamespace = "http://www.SurveySquare.com/"
+    )]
+    public QueryStringField[] GetQueryStringFieldsxml(
+      string OuthToken,
+      string SurveyID
+    ) {
+      return (
+        Invoke(
+          "GetQueryStringFieldsxml",
+          new object[] {
+            OuthToken,
+            SurveyID,
+          }
+        )[0]
+      ) as QueryStringField[];
     }
   }
 }

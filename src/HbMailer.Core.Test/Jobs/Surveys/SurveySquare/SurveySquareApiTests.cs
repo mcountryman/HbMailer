@@ -20,12 +20,12 @@ namespace HbMailer.Jobs.Surveys.SurveySquare {
 
     [Test, Order(1)]
     public void TestAuthenticate() {
-      _surveySquare = new SurveySquareApi(_apiKey);
+      // _surveySquare = new SurveySquareApi(_apiKey);
     }
 
     [Test]
     public void TestGetSurveys() {
-      var surveys = _surveySquare.GetSurveys();
+      // var surveys = _surveySquare.GetSurveys();
     }
 
     [Test]

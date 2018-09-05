@@ -11,8 +11,8 @@ namespace HbMailer.Jobs.Surveys {
   public class SurveySquareSettings : SurveySettings {
     public string ApiKey { get; set; }
 
-    public async Task Validate() {
-      new SurveySquareApi(ApiKey);
+    public override async Task Validate() {
+      await Task.FromResult(new SurveySquareApi(ApiKey));
     }
   }
 

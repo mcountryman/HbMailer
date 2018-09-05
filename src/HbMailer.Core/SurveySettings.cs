@@ -9,6 +9,9 @@ namespace HbMailer {
     /// <summary>
     /// Throw an exception when settings are invalid.
     /// </summary>
-    public virtual async Task Validate() { }
+    public virtual async Task Validate() {
+      // Placeholder for warning #C01998
+      await Task.FromResult(0);
+    }
   }
 }

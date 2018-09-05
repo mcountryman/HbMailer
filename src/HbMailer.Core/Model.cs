@@ -134,7 +134,7 @@ namespace HbMailer {
 
       try {
         instance = Load<T>(filename);
-      } catch (FileNotFoundException ex) {
+      } catch (FileNotFoundException) {
         instance = new T();
         instance.Watch = true;
         instance.Filename = Path.GetFullPath(filename);

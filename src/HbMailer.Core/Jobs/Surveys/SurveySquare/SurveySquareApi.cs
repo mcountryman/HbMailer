@@ -13,16 +13,16 @@ namespace HbMailer.Jobs.Surveys.SurveySquare {
 
     public SurveySquareApi(string apiKey) {
       soapApi = new SurveySquareSoapApi();
-      oAuthToken = soapApi.GetOAuthToken(apiKey);
+      oAuthToken = soapApi.getOuthToken(apiKey);
     }
 
 
     public string GetSurveyLink(string surveyId, QueryStringField[] queryStringFields) {
-      return soapApi.GenerateSurveyLink(oAuthToken, surveyId, queryStringFields);
+      return soapApi.GenerateSurveyLinkXml(oAuthToken, surveyId, queryStringFields);
     }
 
-    public Survey[] GetSurveys() {
-      return soapApi.GetSurveysXml(oAuthToken);
+    public QueryStringField[] GetQueryStringFields(string surveyId) {
+      return soapApi.GetQueryStringFieldsxml(oAuthToken, surveyId);
     }
   }
 }

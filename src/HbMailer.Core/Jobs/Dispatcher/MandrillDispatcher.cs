@@ -38,6 +38,9 @@ namespace HbMailer.Jobs.Dispatcher {
     /// <param name="ctx"></param>
     /// <param name="job">Job to dispatch</param>
     public void Dispatch(MailJobContext ctx, MailJob job) {
+      if (!(ctx.Settings.EmailService is MandrillSettings))
+        throw new InvalidOperationException("Unable to dispatch to Mandrill without Mandrill settings configured");
+
       MandrillSettings settings = ctx.Settings.EmailService as MandrillSettings;
 
       // Re-initialize API

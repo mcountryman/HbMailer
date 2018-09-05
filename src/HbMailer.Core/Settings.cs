@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NLog;
 using NLog.Config;
 
+using HbMailer.Jobs.Surveys;
 using HbMailer.Jobs.Dispatcher;
 
 namespace HbMailer {
@@ -15,7 +16,7 @@ namespace HbMailer {
       ApiKey = "MANDRILL_API_KEY",
     };
 
-    [XmlElement()]
+    [XmlElement("SurveySquareSettings", typeof(SurveySquareSettings))]
     public SurveySettings SurveySettings = new SurveySettings();
 
     [XmlElement]

@@ -31,6 +31,7 @@ namespace HbMailer.Jobs {
       _ctx = ctx;
       _dispatcher = new JobDispatcherFactory().CreateDispatcher(ctx.Settings);
       _recipientResolver = new RecipientResolver();
+      _surveyGenerator = new SurveyGeneratorFactory().CreateSurveyGenerator(ctx);
     }
 
     /// <summary>

@@ -118,6 +118,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ISettings.cs" />
+    <Compile Include="Jobs\DispatcherJobSettings.cs" />
+    <Compile Include="Jobs\SurveyJobSettings.cs" />
     <Compile Include="Jobs\Surveys\ISurveyGenerator.cs" />
     <Compile Include="Jobs\Surveys\SurveyGeneratorFactory.cs" />
     <Compile Include="Jobs\Surveys\SurveySquareGenerator.cs" />

@@ -16,7 +16,7 @@ namespace HbMailer.Jobs {
     /// <summary>
     /// Additional fields used when rendering HTML template.
     /// </summary>
-    public Dictionary<string, object> MergeFields { get; }
+    public Dictionary<string, object> MergeFields { get; set; }
       = new Dictionary<string, object>();
   }
 }

@@ -8,7 +8,19 @@ using System.Threading.Tasks;
 namespace HbMailer {
   public class Env {
     public string Filename {
-      get { return Path.ChangeExtension(GetType().Assembly.Location, ".env"); }
+      get {
+        return Path.GetFullPath(
+          Path.Combine(
+            Path.GetDirectoryName(GetType().Assembly.Location),
+            "..",
+            "..",
+            "..",
+            "..",
+            "conf",
+            Path.GetFileNameWithoutExtension(GetType().Assembly.Location) + ".env"
+          )
+        );
+      }
     }
 
     public string ConnectionString {

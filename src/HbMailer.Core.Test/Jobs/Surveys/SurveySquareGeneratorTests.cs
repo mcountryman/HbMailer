@@ -9,5 +9,41 @@ using NUnit.Framework;
 namespace HbMailer.Jobs.Surveys {
   [TestFixture]
   public class SurveySquareGeneratorTests {
+
+    [SetUp]
+    public void SurveySquareGeneratorTestsSetup() {
+      
+    }
+
+    [Test]
+    public void TestGenerateLink() {
+      var ctx = new MailJobContext() {
+        Settings = new Settings() {
+          SurveySettings = new SurveySquareSettings() {
+            ApiKey = Env.Current.SurveySquareApiKey,
+          }
+        }
+      };
+
+      var job = new MailJob() {
+        SurveySettings = new SurveySquareJobSettings() {
+          SurveyId = "TWS1TWCK",
+        },
+      };
+
+      var recipient = new MailJobRecipient() {
+        Name = "Marvin Countryman",
+        Email = "mcountryman@hbmcclure.com",
+        MergeFields = new Dictionary<string, object>() {
+
+        },
+      };
+
+      var generator = new SurveySquareGenerator();
+
+      var link = generator.GenerateLink(ctx, job, recipient);
+
+      return;
+    }
   }
 }

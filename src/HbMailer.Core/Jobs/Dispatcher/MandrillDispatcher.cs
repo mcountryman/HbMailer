@@ -26,6 +26,11 @@ namespace HbMailer.Jobs.Dispatcher {
     }
   }
 
+  [XmlType("MandrillSettings")]
+  public class MandrillJobSettings : DispatcherJobSettings {
+    public string Template { get; set; }
+  }
+
   /// <summary>
   /// MailJob dispatcher for https://mandrillapp.com.
   /// </summary>
@@ -39,9 +44,12 @@ namespace HbMailer.Jobs.Dispatcher {
     /// <param name="job">Job to dispatch</param>
     public void Dispatch(MailJobContext ctx, MailJob job) {
       if (!(ctx.Settings.EmailService is MandrillSettings))
-        throw new InvalidOperationException("Unable to dispatch to Mandrill without Mandrill settings configured");
+        throw new InvalidOperationException("Settings missing Mandrill configuration");
+      if (!(job.DispatcherSettings is MandrillJobSettings))
+        throw new InvalidOperationException("Job missing Mandrill configuration");
 
       MandrillSettings settings = ctx.Settings.EmailService as MandrillSettings;
+      MandrillJobSettings jobSettings = job.DispatcherSettings as MandrillJobSettings;
 
       // Re-initialize API
       MandrillApi mandrill = new MandrillApi(settings.ApiKey);
@@ -49,7 +57,7 @@ namespace HbMailer.Jobs.Dispatcher {
       Task<List<EmailResult>> resultsTask = mandrill.SendMessageTemplate(
         new SendMessageTemplateRequest(
           FormatMessage(job),
-          job.Template
+          jobSettings.Template
         )
       );
 

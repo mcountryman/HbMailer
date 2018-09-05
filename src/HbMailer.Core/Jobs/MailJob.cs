@@ -7,6 +7,9 @@ using System.Collections.Generic;
 
 using NLog;
 
+using HbMailer.Jobs.Surveys;
+using HbMailer.Jobs.Dispatcher;
+
 namespace HbMailer.Jobs {
   /// <summary>
   /// MailJob contains all E-mail campaign job data.
@@ -29,17 +32,17 @@ namespace HbMailer.Jobs {
       get { return LogManager.GetLogger(Name); }
     }
 
+    [XmlElement("SurveySquare", typeof(SurveySquareJobSettings))]
+    public SurveyJobSettings SurveySettings { get; set; }
+    
+    [XmlElement("Mandrill", typeof(MandrillJobSettings))]
+    public DispatcherJobSettings DispatcherSettings { get; set; }
+
     /// <summary>
     /// SQL query string used to build recipient list.
     /// </summary>
     [XmlElement("Query")]
     public string Query { get; set; }
-
-    /// <summary>
-    /// Email campaign service template id.
-    /// </summary>
-    [XmlElement("Template")]
-    public string Template { get; set; }
 
     /// <summary>
     /// Recipient name SQL query result column.

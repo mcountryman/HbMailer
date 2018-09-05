@@ -47,7 +47,19 @@ namespace HbMailer.Jobs.Impl {
       resolver = new RecipientResolver();
     }
 
-    // TODO: Automate SQL query testing
+    [Test]
+    public void TestResolve() {
+      List<MailJobRecipient> recipients = resolver.Resolve(
+        new MailJobContext() {
+          Settings = new Settings() {
+            DbConnectionString = Env.Current.ConnectionString,
+          }
+        },
+        job
+      );
+
+      return;
+    }
 
     [Test]
     public void TestFormatData() {

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace HbMailer.Jobs.Surveys {
   public interface ISurveyGenerator {
+    string Name { get; }
     string GenerateLink(MailJobContext ctx, MailJob job, MailJobRecipient recipient);
   }
 }

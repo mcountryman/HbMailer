@@ -49,6 +49,10 @@ namespace HbMailer.Jobs.Surveys {
   }
 
   public class SurveySquareGenerator : ISurveyGenerator {
+    public string Name {
+      get { return "SurveySquare"; }
+    }
+
     public string GenerateLink(MailJobContext mailJobCtx, MailJob job, MailJobRecipient recipient) {
       var ctx = SurveySquareGeneratorCtx.Create(mailJobCtx, job, recipient);
 

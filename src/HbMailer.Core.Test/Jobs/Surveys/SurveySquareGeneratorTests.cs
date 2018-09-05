@@ -28,6 +28,7 @@ namespace HbMailer.Jobs.Surveys {
       var job = new MailJob() {
         SurveySettings = new SurveySquareJobSettings() {
           SurveyId = "TWS1TWCK",
+          ValidateParameters = false,
         },
       };
 
@@ -43,7 +44,7 @@ namespace HbMailer.Jobs.Surveys {
 
       var link = generator.GenerateLink(ctx, job, recipient);
 
-      return;
+      Utility.ValidateUrl(link);
     }
   }
 }

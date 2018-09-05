@@ -11,6 +11,10 @@ namespace HbMailer {
       get { return Path.ChangeExtension(GetType().Assembly.Location, ".env"); }
     }
 
+    public string ConnectionString {
+      get { return Environment.GetEnvironmentVariable("HBMAILER_CONNECTION_STRING"); }
+    }
+
     public string MandrillApiKey {
       get { return Environment.GetEnvironmentVariable("HBMAILER_MANDRILL_API_KEY"); }
     }
@@ -24,12 +28,12 @@ namespace HbMailer {
       if (File.Exists(Filename)) {
         // Iterate over lines
         foreach (string assignement in File.ReadLines(Filename)) {
-          string[] parts = assignement.Split('=');
+          int eqIdx = assignement.IndexOf('=');
 
           // Just skip over invalid variables
-          if (parts.Length > 1) {
-            string name = parts.ElementAtOrDefault(0).Trim();
-            string value = parts.ElementAtOrDefault(1).Trim();
+          if (eqIdx != -1) {
+            string name = assignement.Substring(0, eqIdx);
+            string value = assignement.Substring(eqIdx + 1, assignement.Length - eqIdx - 1);
 
             Environment.SetEnvironmentVariable(name, value);
           }

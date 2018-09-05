@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 
 using HbMailer;
 using HbMailer.Jobs.Impl;
+using HbMailer.Jobs.Surveys;
 using HbMailer.Jobs.Dispatcher;
 
 namespace HbMailer.Jobs {
@@ -18,6 +19,7 @@ namespace HbMailer.Jobs {
   public class MailJobManager {
     private MailJobContext _ctx;
     private IJobDispatcher _dispatcher;
+    private ISurveyGenerator _surveyGenerator;
     private RecipientResolver _recipientResolver;
 
     /// <summary>
@@ -48,6 +50,18 @@ namespace HbMailer.Jobs {
       try {
         _recipientResolver.Resolve(_ctx, job);
         job.Logger.Debug($"Resolved {job.Recipients.Count} recipients.");
+
+        // Generate survey urls and insert as merge field
+        foreach (var recipient in job.Recipients) { 
+          recipient.MergeFields[job.SurveyUrlMergeField] = _surveyGenerator.GenerateLink(
+            _ctx,
+            job,
+            recipient
+          );
+
+          job.Logger.Debug($"Generated survey url for recipient '{recipient.Email}'");
+        }
+        job.Logger.Debug($"Generated survey urls for recipients");
         _dispatcher.Dispatch(_ctx, job);
         job.Logger.Debug($"Dispatched email campaign to '{_dispatcher.Name}'");
         job.Logger.Info("Job successfull");

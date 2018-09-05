@@ -57,6 +57,12 @@ namespace HbMailer.Jobs {
     public string EmailColumn { get; set; } = "RecipientEmail";
 
     /// <summary>
+    /// Merge field key to use when generating survey url.
+    /// </summary>
+    [XmlElement("SurveyUrlMergeField")]
+    public string SurveyUrlMergeField { get; set; } = "SurveyUrl";
+
+    /// <summary>
     /// Generated list of recipients.
     /// </summary>
     [XmlIgnore]

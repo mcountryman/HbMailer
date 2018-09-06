@@ -34,7 +34,7 @@ namespace HbMailer.Jobs.Surveys {
 
       var recipient = new MailJobRecipient() {
         Name = "Marvin Countryman",
-        Email = "***REMOVED***",
+        Email = "me@maar.vin",
         MergeFields = new Dictionary<string, object>() {
 
         },

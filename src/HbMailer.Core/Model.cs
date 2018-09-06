@@ -15,7 +15,7 @@ namespace HbMailer {
     /// Path to XML file.
     /// </summary>
     [XmlIgnore]
-    public string Filename { get; private set; }
+    public string Filename { get; set; }
 
     /// <summary>
     /// Enable file watching

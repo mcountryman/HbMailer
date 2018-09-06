@@ -37,12 +37,12 @@ namespace HbMailer.Jobs.Surveys.SurveySquare {
     [Test]
     public void TestGetSurveyLink() {
       string surveyLink = _surveySquare.GetSurveyLink("TWS1TWCK", new QueryStringField[] {
-        new QueryStringField() { Key = "EID", Label = "Email Address", Value = "***REMOVED***", },
+        new QueryStringField() { Key = "EID", Label = "Email Address", Value = "me@maar.vin", },
         new QueryStringField() { Key = "LN", Label = "Last Name", Value = "Countryman", },
-        new QueryStringField() { Key = "ADY1", Label = "Address", Value = "***REMOVED***", },
-        new QueryStringField() { Key = "CTY", Label = "City", Value = "***REMOVED***", },
-        new QueryStringField() { Key = "ST", Label = "State", Value = "PA", },
-        new QueryStringField() { Key = "ZC", Label = "Zip", Value = "***REMOVED***", },
+        new QueryStringField() { Key = "ADY1", Label = "Address", Value = "123 Fake St", },
+        new QueryStringField() { Key = "CTY", Label = "City", Value = "Nowhere", },
+        new QueryStringField() { Key = "ST", Label = "State", Value = "OK", },
+        new QueryStringField() { Key = "ZC", Label = "Zip", Value = "123456", },
         new QueryStringField() { Key = "SD", Label = "Date", Value = DateTime.Now.ToShortDateString(), },
         new QueryStringField() { Key = "TEC1", Label = "Tech1", Value = "MCOU", },
         new QueryStringField() { Key = "TEC2", Label = "Tech2", Value = "", },

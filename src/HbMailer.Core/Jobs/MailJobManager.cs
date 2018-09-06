@@ -47,7 +47,8 @@ namespace HbMailer.Jobs {
     /// email with recipient list to configured email service.
     /// </summary>
     /// <param name="job"></param>
-    public void RunJob(MailJob job) {
+    /// <param name="safe"></param>
+    public void RunJob(MailJob job, bool safe = false) {
       try {
         _recipientResolver.Resolve(_ctx, job);
         job.Logger.Debug($"Resolved {job.Recipients.Count} recipients.");
@@ -68,6 +69,9 @@ namespace HbMailer.Jobs {
         job.Logger.Info("Job successfull");
       } catch (Exception ex) {
         job.Logger.Error(ex, "Job failed");
+
+        if (!safe)
+          throw new Exception("Job failed", ex);
       }
     }
   }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 using System.Linq;
+using System.Dynamic;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -54,15 +55,14 @@ namespace HbMailer.Jobs.Dispatcher {
       // Re-initialize API
       MandrillApi mandrill = new MandrillApi(settings.ApiKey);
       // Create task to send formatted email job
-      Task<List<EmailResult>> resultsTask = mandrill.SendMessageTemplate(
+      List<EmailResult> results = mandrill.SendMessageTemplate(
         new SendMessageTemplateRequest(
           FormatMessage(job),
           jobSettings.Template
         )
-      );
+      ).Result;
 
-      // Run task
-      resultsTask.RunSynchronously();
+      return;
     }
 
     /// <summary>
@@ -71,22 +71,22 @@ namespace HbMailer.Jobs.Dispatcher {
     /// <param name="job"></param>
     /// <returns></returns>
     public EmailMessage FormatMessage(MailJob job) {
-      EmailMessage message = new EmailMessage();
+      var emailMessage = new EmailMessage();
 
-      // Format recipient list
-      message.To = job.Recipients
-        .Select(x => new EmailAddress(x.Email, x.Name))
+      emailMessage.To = job.Recipients
+        .Select(x => new EmailAddress(x.Email, x.Name));
+
+      job.Recipients
+        .ForEach(x =>
+          x.MergeFields
+            .ToList()
+            .ForEach(y => 
+              emailMessage.AddRecipientVariable(x.Email, y.Key, y.Value)
+            )
+        )
       ;
 
-      // Format recipient metadata
-      message.RecipientMetadata = job.Recipients
-        .Select(x => new RcptMetadata() {
-          Rcpt = x.Email,
-          Values = x.MergeFields,
-        })
-      ;
-
-      return message;
+      return emailMessage;
     }
   }
 }

@@ -1,0 +1,33 @@
+﻿<Controls:MetroWindow x:Class="HbMailer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HbMailer"
+        xmlns:Views="clr-namespace:HbMailer.Views"
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+        
+        mc:Ignorable="d"
+        
+        Title="HbMailer"
+        Height="450"
+        Width="800"
+        IconOverlayBehavior="Always"
+        LeftWindowCommandsOverlayBehavior="Always"
+        RightWindowCommandsOverlayBehavior="Always"
+        WindowButtonCommandsOverlayBehavior="Always">
+  <Controls:MetroWindow.Flyouts>
+    <Controls:FlyoutsControl>
+      <Controls:Flyout Header="Job"
+                       Width="400"
+                       Theme="Dark"
+                       IsOpen="{Binding AppContext.EditMode}"
+                       Position="Right">
+        <Views:JobView AppContext="{Binding AppContext}"/>
+      </Controls:Flyout>
+    </Controls:FlyoutsControl>
+  </Controls:MetroWindow.Flyouts>
+  <Grid>
+    <Views:JobListView AppContext="{Binding AppContext}"/>
+  </Grid>
+</Controls:MetroWindow>

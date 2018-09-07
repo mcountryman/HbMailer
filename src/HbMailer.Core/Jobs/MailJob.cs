@@ -16,13 +16,6 @@ namespace HbMailer.Jobs {
   /// </summary>
   [XmlType("Job")]
   public class MailJob : Model {
-    /// <summary>
-    /// Get Name of job from Model.Filename
-    /// </summary>
-    [XmlIgnore]
-    public string Name {
-      get { return Path.GetFileNameWithoutExtension(Filename); }
-    }
 
     /// <summary>
     /// Get NLog logger
@@ -37,6 +30,12 @@ namespace HbMailer.Jobs {
     
     [XmlElement("Mandrill", typeof(MandrillJobSettings))]
     public DispatcherJobSettings DispatcherSettings { get; set; }
+
+    /// <summary>
+    /// Name of job
+    /// </summary>
+    [XmlElement("Name")]
+    public string Name { get; set; } = "Unknown";
 
     /// <summary>
     /// SQL query string used to build recipient list.
@@ -75,6 +74,14 @@ namespace HbMailer.Jobs {
     /// <param name="filename">Path to XML file.</param>
     /// <returns></returns>
     public static MailJob Load(string filename)
-      => Load<MailJob>(filename);
+      => LoadSafe<MailJob>(filename);
+
+    /// <summary>
+    /// Load new instances.
+    /// </summary>
+    /// <param name="folder"></param>
+    /// <returns></returns>
+    public static List<MailJob> LoadAll(string folder)
+      => LoadAll<MailJob>(folder);
   }
 }

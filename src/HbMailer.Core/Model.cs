@@ -2,7 +2,11 @@
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Reflection;
+using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 using NLog;
 
@@ -10,7 +14,7 @@ namespace HbMailer {
   public abstract class Model {
     private Logger _logger = LogManager.GetLogger("Model");
     private FileSystemWatcher _watcher;
- 
+
     /// <summary>
     /// Path to XML file.
     /// </summary>
@@ -29,6 +33,9 @@ namespace HbMailer {
         return false;
       }
       set {
+        if (String.IsNullOrEmpty(Filename))
+          return;
+
         if (_watcher == null && value) {
           _watcher = new FileSystemWatcher();
           _watcher.Path = Path.GetDirectoryName(Filename);
@@ -89,13 +96,22 @@ namespace HbMailer {
       Type type = GetType();
 
       foreach (FieldInfo field in type.GetFields()) {
-        if (field.IsPublic && !field.IsSpecialName) {
+        if (
+          field.IsPublic &&
+          !field.IsSpecialName &&
+          field.GetCustomAttribute(typeof(XmlIgnoreAttribute)) == null
+        ) {
           field.SetValue(this, field.GetValue(that));
         }
       }
 
       foreach (PropertyInfo property in type.GetProperties()) {
-        if (property.CanRead && property.CanWrite && !property.IsSpecialName) {
+        if (
+          property.CanRead &&
+          property.CanWrite &&
+          !property.IsSpecialName &&
+          property.GetCustomAttribute(typeof(XmlIgnoreAttribute)) == null
+        ) {
           property.SetValue(this, property.GetValue(that));
         }
       }
@@ -136,12 +152,34 @@ namespace HbMailer {
         instance = Load<T>(filename);
       } catch (FileNotFoundException) {
         instance = new T();
-        instance.Watch = true;
         instance.Filename = Path.GetFullPath(filename);
+        instance.Watch = true;
         instance.Save();
       }
 
       return instance;
+    }
+    
+    protected static List<T> LoadAll<T>(
+      string folder,
+      string pattern = "*.xml",
+      bool createDirectoryIfNotExists = true
+    ) where T : Model, new() {
+      var result = new ConcurrentBag<T>();
+
+      if (!Directory.Exists(folder)) {
+        if (createDirectoryIfNotExists)
+          Directory.CreateDirectory(folder);
+
+        return result.ToList();
+      }
+
+      Parallel.ForEach(
+        Directory.GetFiles(folder, pattern),
+        filename => result.Add(LoadSafe<T>(filename))
+      );
+
+      return result.ToList();
     }
   }
 }

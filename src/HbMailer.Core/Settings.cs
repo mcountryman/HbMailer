@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Xml.Serialization;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
@@ -18,6 +19,12 @@ namespace HbMailer {
 
     [XmlElement("SurveySquareSettings", typeof(SurveySquareSettings))]
     public SurveySettings SurveySettings = new SurveySettings();
+
+    [XmlElement("JobsFolder")]
+    public string JobsFolder { get; set; } = Path.Combine(
+      Environment.CurrentDirectory,
+      "Jobs"
+    );
 
     [XmlElement]
     public string DbConnectionString { get; set; } = @"Data Source=localhost; Integrated Security=SSPI;";

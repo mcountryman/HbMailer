@@ -9,24 +9,46 @@
         
         mc:Ignorable="d"
                       
-        Controls:DialogParticipation.Register="{Binding AppContext}"
+        Controls:DialogParticipation.Register="{Binding}"
         
         x:Name="self"
         Title="HbMailer"
         Height="450"
         Width="800"
+        MinWidth="500"
+        MinHeight="250"
         IconOverlayBehavior="Always"
         LeftWindowCommandsOverlayBehavior="Always"
         RightWindowCommandsOverlayBehavior="Always"
         WindowButtonCommandsOverlayBehavior="Always">
+  <Controls:MetroWindow.RightWindowCommands>
+    <Controls:WindowCommands>
+      <Button Click="OnSettingsClicked">
+        <Rectangle Width="20"
+                   Height="20"
+                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+          <Rectangle.OpacityMask>
+            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
+          </Rectangle.OpacityMask>
+        </Rectangle>
+      </Button>
+    </Controls:WindowCommands>
+  </Controls:MetroWindow.RightWindowCommands>
   <Controls:MetroWindow.Flyouts>
     <Controls:FlyoutsControl>
       <Controls:Flyout Header="Job"
                        Width="400"
                        Theme="Dark"
-                       IsOpen="{Binding AppContext.ShowJobFlyout}"
+                       IsOpen="{Binding ShowJobFlyout}"
                        Position="Right">
         <Views:JobView/>
+      </Controls:Flyout>
+      <Controls:Flyout Header="Settings"
+                       Width="400"
+                       Theme="Dark"
+                       IsOpen="{Binding ShowSettingsFlyout}"
+                       Position="Right">
+        <Views:SettingsView/>
       </Controls:Flyout>
     </Controls:FlyoutsControl>
   </Controls:MetroWindow.Flyouts>

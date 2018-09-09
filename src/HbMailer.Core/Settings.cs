@@ -12,19 +12,14 @@ using HbMailer.Jobs.Dispatcher;
 
 namespace HbMailer {
   public class Settings : Model {
-    [XmlElement("MandrillSettings", typeof(MandrillSettings))]
-    public EmailSettings EmailService = new MandrillSettings() {
+    public MandrillSettings EmailService = new MandrillSettings() {
       ApiKey = "MANDRILL_API_KEY",
     };
+    
+    public SurveySquareSettings SurveySettings = new SurveySquareSettings();
 
-    [XmlElement("SurveySquareSettings", typeof(SurveySquareSettings))]
-    public SurveySettings SurveySettings = new SurveySettings();
-
-    [XmlElement("JobsFolder")]
-    public string JobsFolder { get; set; } = Path.Combine(
-      Environment.CurrentDirectory,
-      "Jobs"
-    );
+    [XmlElement("JobsFile")]
+    public string JobsFilename { get; set; }
 
     [XmlElement]
     public string DbConnectionString { get; set; } = @"Data Source=localhost; Integrated Security=SSPI;";

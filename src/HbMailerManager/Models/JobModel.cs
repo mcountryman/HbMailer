@@ -8,10 +8,12 @@ using System.Threading.Tasks;
 using MahApps.Metro.Controls.Dialogs;
 
 using HbMailer.Jobs;
+using HbMailer.Jobs.Surveys;
+using HbMailer.Jobs.Dispatcher;
 using HbMailer.Helpers;
 
 namespace HbMailer.Models {
-  public class JobModel : Notifier {
+  public class JobModel : PropertyNotifier {
     private MailJob _job;
 
     public string Name {
@@ -22,60 +24,72 @@ namespace HbMailer.Models {
       }
     }
 
-    public string Filename {
-      get => _job.Filename;
+    public string Query {
+      get => _job.Query;
       set {
-        _job.Filename = value;
+        _job.Query = value;
+        RaisePropertyChanged();
+      }
+    }
+
+    public string RecipientNameColumn {
+      get => _job.NameColumn;
+      set {
+        _job.NameColumn = value;
+        RaisePropertyChanged();
+      }
+    }
+
+    public string RecipientEmailColumn {
+      get => _job.EmailColumn;
+      set {
+        _job.EmailColumn = value;
+        RaisePropertyChanged();
+      }
+    }
+
+    public string Template {
+      get => (_job.DispatcherSettings as MandrillJobSettings).Template;
+      set {
+        (_job.DispatcherSettings as MandrillJobSettings).Template = value;
+        RaisePropertyChanged();
+      }
+    }
+
+    public string SurveyId {
+      get => (_job.SurveySettings as SurveySquareJobSettings).SurveyId;
+      set {
+        (_job.SurveySettings as SurveySquareJobSettings).SurveyId = value;
+        RaisePropertyChanged();
+      }
+    }
+
+    public bool ValidateSurveyMergeFields {
+      get => (_job.SurveySettings as SurveySquareJobSettings).ValidateParameters;
+      set {
+        (_job.SurveySettings as SurveySquareJobSettings).ValidateParameters = value;
+        RaisePropertyChanged();
+      }
+    }
+
+    public string SurveyUrlMergeField {
+      get => _job.SurveyUrlMergeField;
+      set {
+        _job.SurveyUrlMergeField = value;
         RaisePropertyChanged();
       }
     }
 
     public JobModel() {
       _job = new MailJob() {
-        Filename = Path.Combine(
-          Environment.CurrentDirectory,
-          "Jobs",
-          "Unknown.xml"
-        ),
+        SurveySettings = new SurveySquareJobSettings() { },
+        DispatcherSettings = new MandrillJobSettings() { },
+        Name = "",
       };
     }
+
     public JobModel(MailJob job) {
       _job = job;
-    }
-
-    public void Save() => _job.Save();
-    public void Save(object sender, IDialogCoordinator dialog) { }
-
-    public void Load() => _job.Load();
-    public void Load(object sender, IDialogCoordinator dialog) { }
-
-    public void Delete(IList<JobModel> container) {
-      container.Remove(this);
-
-      if (File.Exists(_job.Filename))
-        File.Delete(_job.Filename);
-
-      _job = new MailJob();
-    }
-
-    public async Task DeleteAsync(IList<JobModel> container, object sender, IDialogCoordinator dialog) {
-      var confirmation = await dialog.ShowInputAsync(
-        sender,
-        "Are you sure you want to do this?",
-        "Type the job name to confirm.."
-      );
-
-      if (String.IsNullOrEmpty(confirmation))
-        return;
-
-      if (confirmation == _job.Name)
-        Delete(container);
-
-      await dialog.ShowMessageAsync(
-        sender,
-        "Winner!",
-        $"Successfully deleted job \"{confirmation}\""
-      );
     }
   }
 }

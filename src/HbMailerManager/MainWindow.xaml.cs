@@ -17,22 +17,21 @@ using System.ComponentModel;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 
+using HbMailer.ViewModels;
+
 namespace HbMailer {
   /// <summary>
   /// Interaction logic for MainWindow.xaml
   /// </summary>
-  public partial class MainWindow : MetroWindow, INotifyPropertyChanged {
-    public AppContext AppContext { get; set; }
-
+  public partial class MainWindow : MetroWindow {
     public MainWindow() {
       InitializeComponent();
-      AppContext = App.Current.Context;
-      DataContext = this;
+      DataContext = App.Current.Context.MainViewModel;
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
-    private void RaisePropertyChanged(string name) {
-      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    private void OnSettingsClicked(object sender, RoutedEventArgs e) {
+      (DataContext as MainViewModel).ShowSettingsFlyout =
+        !(DataContext as MainViewModel).ShowSettingsFlyout;
     }
   }
 }

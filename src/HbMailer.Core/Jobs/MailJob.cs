@@ -15,7 +15,7 @@ namespace HbMailer.Jobs {
   /// MailJob contains all E-mail campaign job data.
   /// </summary>
   [XmlType("Job")]
-  public class MailJob : Model {
+  public class MailJob {
 
     /// <summary>
     /// Get NLog logger
@@ -67,21 +67,5 @@ namespace HbMailer.Jobs {
     [XmlIgnore]
     public List<MailJobRecipient> Recipients { get; set; }
       = new List<MailJobRecipient>();
-
-    /// <summary>
-    /// Load new instance from disk.
-    /// </summary>
-    /// <param name="filename">Path to XML file.</param>
-    /// <returns></returns>
-    public static MailJob Load(string filename)
-      => LoadSafe<MailJob>(filename);
-
-    /// <summary>
-    /// Load new instances.
-    /// </summary>
-    /// <param name="folder"></param>
-    /// <returns></returns>
-    public static List<MailJob> LoadAll(string folder)
-      => LoadAll<MailJob>(folder);
   }
 }

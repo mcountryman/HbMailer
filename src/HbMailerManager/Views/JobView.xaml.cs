@@ -27,10 +27,7 @@ namespace HbMailer.Views {
   public partial class JobView : UserControl {
     public JobView() {
       InitializeComponent();
-      DataContext = new JobViewModel(
-        App.Current.Context,
-        DialogCoordinator.Instance
-      );
+      DataContext = App.Current.Context.JobViewModel;
     }
   }
 }

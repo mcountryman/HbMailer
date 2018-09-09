@@ -9,89 +9,53 @@ using System.Runtime.CompilerServices;
 
 using MahApps.Metro.Controls.Dialogs;
 
-using HbMailer.Jobs;
-using HbMailer.Jobs.Surveys;
-using HbMailer.Jobs.Dispatcher;
 using HbMailer.Models;
+using HbMailer.Helpers;
+using HbMailer.ViewModels;
+using HbMailer.Properties;
 
 namespace HbMailer {
-  public enum JobMode {
-    None,
-    Edit,
-    Create,
-  }
-
-  public class AppContext : INotifyPropertyChanged {
-    private JobModel              _job;
-    private BindingList<JobModel> _jobs;
-    private JobMode               _jobMode;
-    private Settings              _settings;
-    private bool                  _showJobFlyout;
-
-    public JobModel Job {
-      get => _job;
-      set {
-        _job = value;
-        RaisePropertyChanged();
-      }
-    }
-
-    public BindingList<JobModel> Jobs {
-      get => _jobs;
-      set {
-        _jobs = value;
-        RaisePropertyChanged();
-      }
-    }
-
-    public JobMode JobMode {
-      get => _jobMode;
-      set {
-        _jobMode = value;
-        ShowJobFlyout =
-          value == JobMode.Edit |
-          value == JobMode.Create
-        ;
-        RaisePropertyChanged();
-      }
-    }
-
-    public Settings Settings {
-      get => _settings;
-      set {
-        _settings = value;
-        RaisePropertyChanged();
-      }
-    }
-
-    public bool ShowJobFlyout {
-      get => _showJobFlyout;
-      set {
-        _showJobFlyout = value;
-        RaisePropertyChanged();
-      }
-    }
-
-    public event PropertyChangedEventHandler PropertyChanged;
+  public class AppContext {
+    public JobViewModel JobViewModel { get; set; }
+    public MainViewModel MainViewModel { get; set; }
+    public JobListViewModel JobListViewModel { get; set; }
+    public SettingsViewModel SettingsViewModel { get; set; }
 
     public AppContext() {
-      Job = new JobModel();
-      Jobs = new BindingList<JobModel>();
-      JobMode = JobMode.None;
-      Settings = new Settings();
+      JobViewModel = new JobViewModel(this, DialogCoordinator.Instance);
+      MainViewModel = new MainViewModel(this, DialogCoordinator.Instance);
+      JobListViewModel = new JobListViewModel(this, DialogCoordinator.Instance);
+      SettingsViewModel = new SettingsViewModel(this, DialogCoordinator.Instance);
     }
 
-    public void LoadJobs() {
-      var jobs = MailJob.LoadAll(Settings.JobsFolder);
+    public void Load() {
+      SettingsViewModel.Settings.Filename = GetFilename(Resources.SettingsPath);
 
-      Jobs.Clear();
-      jobs.
-        ForEach(job => Jobs.Add(new JobModel(job)))
-      ;
+      try {
+        SettingsViewModel.Load();
+      } catch {
+        // Swallow this exception
+      }
+
+      try {
+        if (String.IsNullOrEmpty(SettingsViewModel.Settings.JobsFilename))
+          SettingsViewModel.Settings.JobsFilename = GetFilename(Resources.JobsPath);
+
+        JobListViewModel.JobsModel.Filename = SettingsViewModel.Settings.JobsFilename;
+        JobListViewModel.Load();
+      } catch {
+        // Swallow this exception
+      }
     }
 
-    private void RaisePropertyChanged([CallerMemberName]string propertyName = "") {
-      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    private string GetFilename(string filename) {
+      filename = Environment.ExpandEnvironmentVariables(filename);
+      string directory = Path.GetDirectoryName(filename);
+
+      if (!Directory.Exists(directory))
+        Directory.CreateDirectory(directory);
+
+      return filename;
     }
   }
 }

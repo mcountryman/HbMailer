@@ -14,38 +14,49 @@ using HbMailer.Helpers;
 
 namespace HbMailer.ViewModels {
   public class JobViewModel : ViewModel {
-    private IDialogCoordinator _dialogCoordinator;
+    private JobModel _job;
 
     public JobModel Job {
-      get => AppContext.Job;
-      set => AppContext.Job = value;
+      get => _job;
+      set {
+        _job = value;
+        RaisePropertyChanged();
+      }
     }
 
     public ICommand SaveCommand { get; set; }
     public ICommand DeleteCommand { get; set; }
     public ICommand CancelCommand { get; set; }
 
-    public JobViewModel(AppContext ctx, IDialogCoordinator dialogCoordinator) {
-      AppContext = ctx;
-      _dialogCoordinator = dialogCoordinator;
-
+    public JobViewModel(
+      AppContext ctx,
+      IDialogCoordinator dialogCoordinator
+    ) : base(ctx, dialogCoordinator) {
       SaveCommand = new RelayCommand(() => Save());
-      DeleteCommand = new RelayCommand(() => Delete(), () => AppContext.JobMode == JobMode.Edit);
+      DeleteCommand = new RelayCommand(
+        async () => await Delete(),
+        () => Ctx.MainViewModel.JobMode == JobMode.Edit
+      );
       CancelCommand = new RelayCommand(() => Cancel());
     }
 
     private void Save() {
-      Job.Save();
-      AppContext.JobMode = JobMode.None;
+      if (Ctx.MainViewModel.JobMode == JobMode.Create) {
+        Ctx.JobListViewModel.Jobs.Add(Job);
+        Ctx.JobListViewModel.SelectedJob = Job;
+      }
+
+      Ctx.JobListViewModel.Save();
+      Ctx.MainViewModel.JobMode = JobMode.None;
     }
 
-    private void Delete() {
-      Job.Delete(AppContext.Jobs);
-      AppContext.JobMode = JobMode.None;
+    private async Task Delete() {
+      await Ctx.JobListViewModel.Delete(Job);
+      Ctx.MainViewModel.JobMode = JobMode.None;
     }
 
     private void Cancel() {
-      AppContext.JobMode = JobMode.None;
+      Ctx.MainViewModel.JobMode = JobMode.None;
     }
   }
 }

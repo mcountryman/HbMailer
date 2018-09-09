@@ -25,7 +25,7 @@ namespace HbMailer.Jobs.Dispatcher {
     public void TestExceptionOnInvalidSettings() {
       var factory = new JobDispatcherFactory();
       var settings = new Settings() {
-        EmailService = new EmailSettings(),
+        EmailService = new MandrillSettings(),
       };
 
       Assert.Throws(

@@ -47,7 +47,6 @@ namespace HbMailer.Jobs {
           'Marvin' AS Name,
           '7178675309' AS MN
       ";
-      job.Filename = "";
       job.NameColumn = "emailName";
       job.EmailColumn = "emailAddress";
       job.SurveyUrlMergeField = "SURVEYURL";

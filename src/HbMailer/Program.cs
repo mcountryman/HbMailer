@@ -29,8 +29,6 @@ namespace HbMailer {
         _logger.Fatal("Started job runner without indicating a job to run!");
         return;
       }
-
-      RunJob(arguments[0]);
     }
 
     static void SetupLogger() {
@@ -56,10 +54,6 @@ namespace HbMailer {
       _settings = Settings.LoadSafe("HbMailer.xml");
       _mailJobCtx = new MailJobContext() { Settings = _settings };
       _mailJobManager = new MailJobManager(_mailJobCtx);
-    }
-
-    static void RunJob(string filename) {
-      _mailJobManager.RunJob(MailJob.Load(filename));
     }
   }
 }

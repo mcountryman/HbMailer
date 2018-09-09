@@ -59,5 +59,23 @@ namespace HbMailer.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to %PROGRAMDATA%\HbMailer\Jobs.xml.
+        /// </summary>
+        internal static string JobsPath {
+            get {
+                return ResourceManager.GetString("JobsPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to %PROGRAMDATA%\HbMailer\Settings.xml.
+        /// </summary>
+        internal static string SettingsPath {
+            get {
+                return ResourceManager.GetString("SettingsPath", resourceCulture);
+            }
+        }
     }
 }

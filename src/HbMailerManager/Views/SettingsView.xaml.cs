@@ -13,25 +13,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using MahApps.Metro.Controls.Dialogs;
+
+using HbMailer.ViewModels;
+
 namespace HbMailer.Views {
   /// <summary>
   /// Interaction logic for SettingsView.xaml
   /// </summary>
   public partial class SettingsView : UserControl {
-    public static readonly DependencyProperty AppContextProperty = DependencyProperty.Register(
-      "AppContext",
-      typeof(AppContext),
-      typeof(SettingsView),
-      new PropertyMetadata()
-    );
-
-    public AppContext AppContext {
-      get => GetValue(AppContextProperty) as AppContext;
-      set => SetValue(AppContextProperty, value);
-    }
-
     public SettingsView() {
       InitializeComponent();
+      DataContext = App.Current.Context.SettingsViewModel;
     }
   }
 }

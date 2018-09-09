@@ -16,54 +16,95 @@ using HbMailer.Helpers;
 
 namespace HbMailer.ViewModels {
   public class JobListViewModel : ViewModel {
-    private BindingList<JobModel> _jobs = new BindingList<JobModel>();
-    private IDialogCoordinator   _dialogCoordinator;
+    private JobsModel _jobs = new JobsModel();
+    private JobModel _selectedJob;
 
     public BindingList<JobModel> Jobs {
-      get => AppContext.Jobs;
+      get => _jobs.Jobs;
+    }
+
+    public JobsModel JobsModel {
+      get => _jobs;
     }
 
     public JobModel SelectedJob {
-      get => AppContext.Job;
+      get => _selectedJob;
       set {
-        AppContext.Job = value;
+        _selectedJob = value;
         RaisePropertyChanged();
       }
     }
-    
+
     public ICommand NewCommand { get; set; }
     public ICommand RunCommand { get; set; }
     public ICommand EditCommand { get; set; }
     public ICommand DeleteCommand { get; set; }
 
-    public JobListViewModel(AppContext ctx, IDialogCoordinator dialogCoordinator) {
-      AppContext = ctx;
-      _dialogCoordinator = dialogCoordinator;
+    public JobListViewModel(
+      AppContext ctx,
+      IDialogCoordinator dialogCoordinator
+    ) : base(ctx, dialogCoordinator) {
 
-      NewCommand = new RelayCommand(async () => await New());
-      RunCommand = new RelayCommand(async () => await Run(), () => SelectedJob != null);
-      EditCommand = new RelayCommand(async () => await Edit(), () => SelectedJob != null);
-      DeleteCommand = new RelayCommand(async () => await Delete(), () => SelectedJob != null);
+      NewCommand = new RelayCommand(() => New());
+      RunCommand = new RelayCommand(
+        () => Run(SelectedJob),
+        () =>  SelectedJob != null
+      );
+      EditCommand = new RelayCommand(
+        () => Edit(SelectedJob),
+        () => SelectedJob != null
+      );
+      DeleteCommand = new RelayCommand(
+        async () => await Delete(SelectedJob),
+        () => SelectedJob != null
+      );
     }
 
-    private async Task New() {
+    public void New() {
       var job = new JobModel();
 
-      Jobs.Add(job);
-      SelectedJob = job;
-
-      AppContext.JobMode = JobMode.Create;
+      Ctx.JobViewModel.Job = job;
+      Ctx.MainViewModel.JobMode = JobMode.Create;
     }
 
-    private async Task Run() { }
+    public void Run(JobModel job) { }
 
-    private async Task Edit() {
-      AppContext.Job = SelectedJob;
-      AppContext.JobMode = JobMode.Edit;
+    public void Edit(JobModel job) {
+      Ctx.JobViewModel.Job = job;
+      Ctx.MainViewModel.JobMode = JobMode.Edit;
     }
 
-    private async Task Delete() {
-      await SelectedJob.DeleteAsync(AppContext.Jobs, this, _dialogCoordinator);
+    public async Task Delete(JobModel job) {
+      var result = await DialogCoordinator.ShowMessageAsync(
+        this,
+        "Are you sure?",
+        "Do you really want to delete this job?",
+        MessageDialogStyle.AffirmativeAndNegative
+      );
+
+      if (result != MessageDialogResult.Affirmative)
+        return;
+
+      Jobs.Remove(job);
+
+      if (SelectedJob == job)
+        SelectedJob = null;
+
+      await DialogCoordinator.ShowMessageAsync(
+        this,
+        "Winner!",
+        $"Successfully deleted job!"
+      );
+
+      _jobs.Save();
+    }
+
+    public void Load() {
+      _jobs.Load();
+    }
+
+    public void Save() {
+      _jobs.Save();
     }
   }
 }

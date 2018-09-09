@@ -70,7 +70,7 @@ namespace HbMailer {
     /// <exception cref="UnauthorizedAccessException"/>
     /// <exception cref="NotSupportedException"/>
     public void Save() {
-      using (FileStream stream = File.Open(Filename, FileMode.Create))
+      using (FileStream stream = File.Open(Filename, FileMode.Create, FileAccess.Write))
         new XmlSerializer(GetType()).Serialize(stream, this);
 
       _logger.Debug($"Saved {Filename}");
@@ -82,8 +82,12 @@ namespace HbMailer {
     public void Load() {
       object that;
 
+      // Check if file exists
+      if (!File.Exists(Filename))
+        throw new FileNotFoundException();
+
       // Read and deserialize file
-      using (FileStream stream = File.Open(Filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+      using (FileStream stream = File.OpenRead(Filename))
         that = new XmlSerializer(GetType()).Deserialize(stream);
 
       // Load object properties and fields into current instance
@@ -134,7 +138,6 @@ namespace HbMailer {
 
       // Load from disk
       model.Load();
-      model.Watch = true;
       
       return model;
     }
@@ -153,7 +156,6 @@ namespace HbMailer {
       } catch (FileNotFoundException) {
         instance = new T();
         instance.Filename = Path.GetFullPath(filename);
-        instance.Watch = true;
         instance.Save();
       }
 

@@ -11,25 +11,21 @@
              mc:Ignorable="d" 
              d:DesignHeight="450"
              d:DesignWidth="800">
-  <UserControl.InputBindings>
-    <KeyBinding Key="N" Modifiers="Ctrl" Command="{Binding NewJob}" />
-    <KeyBinding Key="R" Modifiers="Ctrl" Command="{Binding RunJob}"/>
-    <KeyBinding Key="E" Modifiers="Ctrl" Command="{Binding EditJob}"/>
-    <KeyBinding Key="Delete"             Command="{Binding DeleteJob}"/>
-  </UserControl.InputBindings>
-  <DataGrid
-    x:Name="jobsDataGrid"
-    Style="{StaticResource AzureDataGrid}"
-    ItemsSource="{Binding Jobs}"
-    SelectedItem="{Binding SelectedJob}"
-    AutoGenerateColumns="True">
-    <DataGrid.ContextMenu>
-      <ContextMenu>
-        <MenuItem Header="New"    InputGestureText="CTRL+N" Command="{Binding NewCommand}" />
-        <MenuItem Header="Run"    InputGestureText="CTRL+R" Command="{Binding RunCommand}"/>
-        <MenuItem Header="Edit"   InputGestureText="CTRL+E" Command="{Binding EditCommand}"/>
-        <MenuItem Header="Delete" InputGestureText="Delete" Command="{Binding DeleteCommand}"/>
-      </ContextMenu>
-    </DataGrid.ContextMenu>
-  </DataGrid>
+  <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <DataGrid x:Name="jobsDataGrid"
+              Style="{StaticResource AzureDataGrid}"
+              IsReadOnly="True"
+              ItemsSource="{Binding Jobs}"
+              SelectedItem="{Binding SelectedJob}"
+              AutoGenerateColumns="True">
+      <DataGrid.ContextMenu>
+        <ContextMenu>
+          <MenuItem Header="New"    Command="{Binding NewCommand}" />
+          <MenuItem Header="Run"    Command="{Binding RunCommand}"/>
+          <MenuItem Header="Edit"   Command="{Binding EditCommand}"/>
+          <MenuItem Header="Delete" Command="{Binding DeleteCommand}"/>
+        </ContextMenu>
+      </DataGrid.ContextMenu>
+    </DataGrid>
+  </ScrollViewer>
 </UserControl>

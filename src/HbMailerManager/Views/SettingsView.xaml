@@ -4,9 +4,84 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HbMailer.Views"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:CustomControls="clr-namespace:HbMailer.Controls"
+             
+             Controls:DialogParticipation.Register="{Binding}"
+             
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             
+             d:DesignHeight="450"
+             d:DesignWidth="400">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="1*"/>
+      <RowDefinition Height="40"/>
+    </Grid.RowDefinitions>
+    <TabControl Grid.Row="0">
+      <TabItem Header="Locations">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+          <StackPanel Margin="5,0">
+            <Label Content="Jobs Filename"/>
+            <CustomControls:SaveFileBox Filename="{Binding JobsFilename, UpdateSourceTrigger=PropertyChanged}"
+                                        DataContext="{Binding Settings}"/>
+
+            <Label Content="Settings Filename"/>
+            <CustomControls:SaveFileBox Filename="{Binding Filename, UpdateSourceTrigger=PropertyChanged}"
+                                        DataContext="{Binding Settings}"/>
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+      <TabItem Header="Database">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+          <StackPanel Margin="5,0">
+            <Label Content="Server"/>
+            <TextBox Controls:TextBoxHelper.Watermark="Hostaname/Instance"
+                     DataContext="{Binding Settings}"
+                     Text="{Binding Server}"/>
+
+            <Label Content="Database"/>
+            <TextBox Controls:TextBoxHelper.Watermark="Initial database"
+                     DataContext="{Binding Settings}"
+                     Text="{Binding Settings.Database}"/>
+
+            <CheckBox Content="Windows authentication"
+                      Margin="0,10,0,5"
+                      DataContext="{Binding Settings}"
+                      IsChecked="{Binding WindowsAuthentication}"/>
+
+            <Label Content="Username"/>
+            <TextBox Controls:TextBoxHelper.Watermark="SQL username"
+                     DataContext="{Binding Settings}"
+                     Text="{Binding Username}"/>
+
+            <Label Content="Password"/>
+            <PasswordBox Controls:TextBoxHelper.Watermark="SQL password" PasswordChar="*"/>
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+      <TabItem Header="Vendor">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+          <StackPanel Margin="5,0">
+            <Label Content="Mandrill API Key"/>
+            <TextBox Text="{Binding MandrillApiKey}"
+                     DataContext="{Binding Settings}"/>
+
+            <Label Content="Survey Square API Key"/>
+            <TextBox Text="{Binding SurveySquareApiKey}"
+                     DataContext="{Binding Settings}"/>
+          </StackPanel>
+        </ScrollViewer>
+      </TabItem>
+    </TabControl>
+    <Grid Grid.Row="1" Margin="0,0,5,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1*"/>
+        <ColumnDefinition Width="1*"/>
+        <ColumnDefinition Width="1*"/>
+      </Grid.ColumnDefinitions>
+
+      <Button Grid.Column="2" Margin="5,5,0,5" Command="{Binding SaveCommand}">Save</Button>
     </Grid>
+  </Grid>
 </UserControl>

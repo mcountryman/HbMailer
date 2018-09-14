@@ -22,6 +22,8 @@ namespace HbMailer {
     static MailJobManager _mailJobManager;
 
     static void Main(string[] arguments) {
+      Kernel32.AllocConsole();
+
       SetupLogger();
       SetupEnvironment();
 
@@ -29,12 +31,23 @@ namespace HbMailer {
         _logger.Fatal("Started job runner without indicating a job to run!");
         return;
       }
+
+      try {
+        new MailJob() { Filename = "Jobs/Example.xml" }.Save();
+        var job = Model.Load<MailJob>($"Jobs/{arguments[0]}.xml");
+
+        _mailJobManager.RunJob(job);
+      } catch(Exception ex) {
+        _logger.Fatal(ex, "Job failed");
+      }
+
+      Console.ReadKey();
     }
 
     static void SetupLogger() {
       var config = new LoggingConfiguration();
       var consoleTarget = new ColoredConsoleTarget("console") {
-        Layout = "[${shortdate}][${level}][${logger}] ${message}",
+        Layout = "[${shortdate}][${level}][${logger}] ${message}${newline}${exception:format=ToString}",
       };
       var eventLogTarget = new EventLogTarget("eventLog") {
         Source = "HbMailer",

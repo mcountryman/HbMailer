@@ -15,7 +15,7 @@ namespace HbMailer.Jobs {
   /// MailJob contains all E-mail campaign job data.
   /// </summary>
   [XmlType("Job")]
-  public class MailJob {
+  public class MailJob : Model {
 
     /// <summary>
     /// Get NLog logger

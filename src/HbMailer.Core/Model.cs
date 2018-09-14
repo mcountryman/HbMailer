@@ -127,7 +127,7 @@ namespace HbMailer {
     /// <typeparam name="T">Model type</typeparam>
     /// <param name="filename">Path to XML file</param>
     /// <returns></returns>
-    protected static T Load<T>(string filename) where T : Model, new() {
+    public static T Load<T>(string filename) where T : Model, new() {
       if (String.IsNullOrEmpty(filename))
         throw new ArgumentNullException("filename");
 
@@ -148,7 +148,7 @@ namespace HbMailer {
     /// <typeparam name="T"></typeparam>
     /// <param name="filename"></param>
     /// <returns></returns>
-    protected static T LoadSafe<T>(string filename) where T : Model, new() {
+    public static T LoadSafe<T>(string filename) where T : Model, new() {
       T instance;
 
       try {

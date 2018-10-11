@@ -20,18 +20,6 @@ namespace HbMailer.Jobs.Dispatcher {
 
       Assert.IsInstanceOf(typeof(MandrillDispatcher), jobDispatcher);
     }
-
-    [Test]
-    public void TestExceptionOnInvalidSettings() {
-      var factory = new JobDispatcherFactory();
-      var settings = new Settings() {
-        EmailService = new EmailSettings(),
-      };
-
-      Assert.Throws(
-        typeof(InvalidOperationException),
-        () => factory.CreateDispatcher(settings)
-      );
     }
 
   }

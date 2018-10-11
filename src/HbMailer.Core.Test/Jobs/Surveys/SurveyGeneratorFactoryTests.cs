@@ -24,18 +24,5 @@ namespace HbMailer.Jobs.Surveys {
 
       Assert.IsInstanceOf(typeof(SurveySquareGenerator), surveyGenerator);
     }
-
-    [Test]
-    public void TestExceptionOnInvalidSettings() {
-      var settings = new Settings();
-      var factory = new SurveyGeneratorFactory();
-
-      Assert.Throws(
-        typeof(InvalidOperationException),
-        () => factory.CreateSurveyGenerator(new MailJobContext() {
-          Settings = settings,
-        })
-      );
-    }
   }
 }

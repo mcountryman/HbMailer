@@ -22,6 +22,8 @@ namespace HbMailer {
     static MailJobManager _mailJobManager;
 
     static void Main(string[] arguments) {
+      Kernel32.AllocConsole();
+
       SetupLogger();
       SetupEnvironment();
 
@@ -30,22 +32,40 @@ namespace HbMailer {
         return;
       }
 
-      RunJob(arguments[0]);
+      try {
+        new MailJob() { Filename = "Jobs/Example.xml" }.Save();
+        var job = Model.Load<MailJob>($"Jobs/{arguments[0]}.xml");
+
+        _mailJobManager.RunJob(job);
+      } catch(Exception ex) {
+        _logger.Fatal(ex, "Job failed");
+      }
+
+      Console.ReadKey();
     }
 
     static void SetupLogger() {
       var config = new LoggingConfiguration();
+      var fileTarget = new FileTarget("file") {
+        Layout = @"[${longdate}][${level}] ${message} ${exception:format=message}",
+        FileName = Path.Combine(Resources.LogFolder, "error.log"),
+        ArchiveEvery = FileArchivePeriod.Day,
+        ArchiveAboveSize = 10240,
+        ArchiveNumbering = ArchiveNumberingMode.Date,
+      };
       var consoleTarget = new ColoredConsoleTarget("console") {
-        Layout = "[${shortdate}][${level}][${logger}] ${message}",
+        Layout = "[${shortdate}][${level}][${logger}] ${message}${newline}${exception:format=ToString}",
       };
       var eventLogTarget = new EventLogTarget("eventLog") {
         Source = "HbMailer",
         Layout = "${message]${newline}${exception:format=ToString}",
       };
 
+      config.AddTarget(fileTarget);
       config.AddTarget(consoleTarget);
       config.AddTarget(eventLogTarget);
       config.AddRuleForAllLevels(consoleTarget);
+      config.AddRule(LogLevel.Info, LogLevel.Fatal, fileTarget);
       config.AddRule(LogLevel.Info, LogLevel.Fatal, eventLogTarget);
 
       LogManager.Configuration = config;
@@ -56,10 +76,6 @@ namespace HbMailer {
       _settings = Settings.LoadSafe("HbMailer.xml");
       _mailJobCtx = new MailJobContext() { Settings = _settings };
       _mailJobManager = new MailJobManager(_mailJobCtx);
-    }
-
-    static void RunJob(string filename) {
-      _mailJobManager.RunJob(MailJob.Load(filename));
     }
   }
 }

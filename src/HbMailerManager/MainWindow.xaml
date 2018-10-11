@@ -1,0 +1,58 @@
+﻿<Controls:MetroWindow x:Class="HbMailer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HbMailer"
+        xmlns:Views="clr-namespace:HbMailer.Views"
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+        
+        mc:Ignorable="d"
+                      
+        Controls:DialogParticipation.Register="{Binding}"
+        
+        x:Name="self"
+        Title="HbMailer"
+        Height="450"
+        Width="800"
+        MinWidth="500"
+        MinHeight="250"
+        IconOverlayBehavior="Always"
+        LeftWindowCommandsOverlayBehavior="Always"
+        RightWindowCommandsOverlayBehavior="Always"
+        WindowButtonCommandsOverlayBehavior="Always">
+  <Controls:MetroWindow.RightWindowCommands>
+    <Controls:WindowCommands>
+      <Button Click="OnSettingsClicked">
+        <Rectangle Width="20"
+                   Height="20"
+                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+          <Rectangle.OpacityMask>
+            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
+          </Rectangle.OpacityMask>
+        </Rectangle>
+      </Button>
+    </Controls:WindowCommands>
+  </Controls:MetroWindow.RightWindowCommands>
+  <Controls:MetroWindow.Flyouts>
+    <Controls:FlyoutsControl>
+      <Controls:Flyout Header="Job"
+                       Width="400"
+                       Theme="Dark"
+                       IsOpen="{Binding ShowJobFlyout}"
+                       Position="Right">
+        <Views:JobView/>
+      </Controls:Flyout>
+      <Controls:Flyout Header="Settings"
+                       Width="400"
+                       Theme="Dark"
+                       IsOpen="{Binding ShowSettingsFlyout}"
+                       Position="Right">
+        <Views:SettingsView/>
+      </Controls:Flyout>
+    </Controls:FlyoutsControl>
+  </Controls:MetroWindow.Flyouts>
+  <Grid>
+    <Views:JobListView/>
+  </Grid>
+</Controls:MetroWindow>

@@ -35,20 +35,12 @@ namespace HbMailer.Jobs {
     }
 
     /// <summary>
-    /// Runs MailJob from XML file
-    /// </summary>
-    /// <param name="filename"></param>
-    public void RunJob(string filename) {
-      RunJob(MailJob.Load(filename));
-    }
-
-    /// <summary>
     /// Resolves recipient email, name, and metadata from query then dispatches
     /// email with recipient list to configured email service.
     /// </summary>
     /// <param name="job"></param>
     /// <param name="safe"></param>
-    public void RunJob(MailJob job, bool safe = false) {
+    public void RunJob(MailJob job, bool safe = true) {
       try {
         _recipientResolver.Resolve(_ctx, job);
         job.Logger.Debug($"Resolved {job.Recipients.Count} recipients.");

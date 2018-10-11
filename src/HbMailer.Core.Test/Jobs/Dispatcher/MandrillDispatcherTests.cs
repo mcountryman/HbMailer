@@ -29,8 +29,7 @@ namespace HbMailer.Jobs.Dispatcher {
     public void TestFormatData() {
       var job = new MailJob();
       var dispatcher = new MandrillDispatcher();
-
-      job.Filename = "";
+      
       job.NameColumn = "emailName";
       job.EmailColumn = "emailAddress";
       job.SurveyUrlMergeField = "SURVEYURL";

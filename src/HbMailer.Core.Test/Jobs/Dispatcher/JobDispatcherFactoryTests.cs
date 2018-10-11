@@ -20,7 +20,6 @@ namespace HbMailer.Jobs.Dispatcher {
 
       Assert.IsInstanceOf(typeof(MandrillDispatcher), jobDispatcher);
     }
-    }
 
   }
 }

@@ -48,7 +48,7 @@ namespace HbMailer {
       var config = new LoggingConfiguration();
       var fileTarget = new FileTarget("file") {
         Layout = @"[${longdate}][${level}] ${message} ${exception:format=message}",
-        FileName = Path.Combine(Resources.LogFolder, "error.log"),
+        FileName = Path.Combine("Logs", "HbMailer.log"),
         ArchiveEvery = FileArchivePeriod.Day,
         ArchiveAboveSize = 10240,
         ArchiveNumbering = ArchiveNumberingMode.Date,

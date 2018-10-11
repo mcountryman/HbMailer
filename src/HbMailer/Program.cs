@@ -46,6 +46,13 @@ namespace HbMailer {
 
     static void SetupLogger() {
       var config = new LoggingConfiguration();
+      var fileTarget = new FileTarget("file") {
+        Layout = @"[${longdate}][${level}] ${message} ${exception:format=message}",
+        FileName = Path.Combine(Resources.LogFolder, "error.log"),
+        ArchiveEvery = FileArchivePeriod.Day,
+        ArchiveAboveSize = 10240,
+        ArchiveNumbering = ArchiveNumberingMode.Date,
+      };
       var consoleTarget = new ColoredConsoleTarget("console") {
         Layout = "[${shortdate}][${level}][${logger}] ${message}${newline}${exception:format=ToString}",
       };
@@ -54,9 +61,11 @@ namespace HbMailer {
         Layout = "${message]${newline}${exception:format=ToString}",
       };
 
+      config.AddTarget(fileTarget);
       config.AddTarget(consoleTarget);
       config.AddTarget(eventLogTarget);
       config.AddRuleForAllLevels(consoleTarget);
+      config.AddRule(LogLevel.Info, LogLevel.Fatal, fileTarget);
       config.AddRule(LogLevel.Info, LogLevel.Fatal, eventLogTarget);
 
       LogManager.Configuration = config;
